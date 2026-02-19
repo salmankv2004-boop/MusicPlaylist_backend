@@ -5,8 +5,8 @@ import express from "express"
 import userRoutes from "./Routes/UserRoutes.js"
 
 import connectDB from "./Config/db.js"
-import songRoute from "./routes/songRoutes.js"
-import playlistroutes from "./routes/playlistRoutes.js"
+import songRoute from "./Routes/SongRoutes.js"
+import playlistroutes from "./Routes/PlaylistRoutes.js"
 import cros from "cors"
 
 
