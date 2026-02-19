@@ -1,11 +1,13 @@
 import { UserModel } from "../Models/User.js";
 import mongoose from "mongoose";
 import jwt from 'jsonwebtoken'
+import connectDB from '../Config/db.js'
 
 const SECRET_KEY = "mysecretkey12"
 
 export const createUser = async (req, res) => {
   try {
+    await connectDB(); // Ensure DB is connected
     console.log("created", req.body);
     // find email
     // if exist 
@@ -22,6 +24,7 @@ export const createUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
   try {
+    await connectDB(); // Ensure DB is connected
     const { email } = req.body;
 
 
