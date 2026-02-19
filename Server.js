@@ -14,15 +14,18 @@ import cros from "cors"
 
 const app = express()
 app.use(express.json())
-app.use(
-  cros({
-    origin: [
-      "https://music-playlist-frontend-six.vercel.app",
-      "http://localhost:5173", // For local development
-    ],
-    credentials: true,
-  })
-);
+const corsOptions = {
+  origin: [
+    "https://music-playlist-frontend-six.vercel.app",
+    "http://localhost:5173", // For local development
+  ],
+  credentials: true,
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
+app.use(cros(corsOptions));
+app.options("*", cros(corsOptions)); // Handle preflight requests explicitly for all routes
+
 app.use('/', userRoutes, songRoute, playlistroutes)
 
 connectDB()
