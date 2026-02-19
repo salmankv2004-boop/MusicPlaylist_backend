@@ -14,7 +14,15 @@ import cros from "cors"
 
 const app = express()
 app.use(express.json())
-app.use(cros())
+app.use(
+  cros({
+    origin: [
+      "https://music-playlist-frontend-six.vercel.app",
+      "http://localhost:5173", // For local development
+    ],
+    credentials: true,
+  })
+);
 app.use('/', userRoutes, songRoute, playlistroutes)
 
 connectDB()
