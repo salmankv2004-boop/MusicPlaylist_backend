@@ -24,9 +24,7 @@ export const loginUser = async (req, res) => {
   try {
     const { email } = req.body;
 
-    if (mongoose.connection.readyState !== 1) {
-      return res.status(503).json({ message: "Database not connected. Please check server logs." });
-    }
+
 
     if (!email) {
       return res.status(400).json({ message: "Email required" });
