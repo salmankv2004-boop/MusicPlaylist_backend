@@ -1,5 +1,5 @@
 
-import { uploadToCloudinary } from "../Config/cloudinary.js";
+import { uploadToCloudinary } from "../Config/Cloudinary.js";
 import fs from "fs";
 import { SongModel } from "../Models/Song.js";
 
