@@ -24,7 +24,7 @@ const corsOptions = {
 };
 
 app.use(cros(corsOptions));
-app.options("*", cros(corsOptions)); // Handle preflight requests explicitly for all routes
+
 
 app.use('/', userRoutes, songRoute, playlistroutes)
 
