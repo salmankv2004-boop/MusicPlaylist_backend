@@ -7,40 +7,35 @@ const SECRET_KEY = "mysecretkey12"
 
 export const createUser = async (req, res) => {
   try {
-    await connectDB(); // Ensure DB is connected
-    console.log("created", req.body);
-    // find email
-    // if exist 
-    const user = await UserModel.create(req.body)
-    console.log(user);
+    await connectDB();
+    const { email } = req.body;
 
-    res.status(200).json({ message: "created successfully", user })
+    const existingUser = await UserModel.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already registered. Please login." });
+    }
+
+    const user = await UserModel.create(req.body);
+    res.status(200).json({ message: "Registration successful!", user });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "server error" })
-
+    console.log("Create User Error:", error);
+    res.status(500).json({ message: "Server error during registration" });
   }
-}
+};
 
 export const loginUser = async (req, res) => {
   try {
-    await connectDB(); // Ensure DB is connected
+    await connectDB();
     const { email } = req.body;
-
-
 
     if (!email) {
       return res.status(400).json({ message: "Email required" });
     }
 
-    let user = await UserModel.findOne({ email });
+    const user = await UserModel.findOne({ email });
 
     if (!user) {
-      user = await UserModel.create({
-        name: email.split("@")[0],
-        email,
-        password: ""   // IMPORTANT
-      });
+      return res.status(404).json({ message: "User not found. Please register first." });
     }
 
     const token = jwt.sign(
@@ -52,7 +47,6 @@ export const loginUser = async (req, res) => {
     res.status(200).json({ token, user });
 
   } catch (err) {
-    console.log(err);
     console.log("Login Error:", err);
     res.status(500).json({ message: "Login error: " + err.message });
   }
